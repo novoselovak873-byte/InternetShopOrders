@@ -1,0 +1,49 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Клиент" as Client
+actor "Менеджер" as Manager
+actor "Склад" as Warehouse
+actor "Служба доставки" as Delivery
+
+usecase "Оформить заказ на сайте" as UC1
+usecase "Оплатить заказ" as UC2
+usecase "Отследить статус заказа" as UC3
+usecase "Отменить заказ" as UC4
+usecase "Поиск заказа" as UC5
+usecase "Доставить заказ клиенту" as UC6
+usecase "Зафиксировать прибыль" as UC7
+usecase "Вести отчётность" as UC8
+usecase "Проверить наличие товара" as UC9
+usecase "Забронировать товар" as UC10
+usecase "Собрать и упаковать заказ" as UC11
+usecase "Передать заказ в доставку" as UC12
+usecase "Оформить возврат товара" as UC13
+usecase "Контроль сроков доставки" as UC14
+
+Client --> UC1
+Client --> UC2
+Client --> UC3
+Client --> UC4
+
+UC1 ..> UC2 : <<extends>>
+UC2 ..> UC5 : <<include>>
+UC3 ..> UC5 : <<include>>
+UC4 ..> UC5 : <<include>>
+
+Delivery --> UC6
+
+Manager --> UC7
+Manager --> UC8
+
+Warehouse --> UC9
+Warehouse --> UC10
+Warehouse --> UC11
+Warehouse --> UC12
+Warehouse --> UC13
+
+UC12 ..> UC14 : <<include>>
+UC13 ..> UC14 : <<extends>>
+
+@enduml
