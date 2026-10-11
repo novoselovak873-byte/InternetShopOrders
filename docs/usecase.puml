@@ -15,12 +15,13 @@ usecase "Поиск заказа" as UC5
 usecase "Доставить заказ клиенту" as UC6
 usecase "Зафиксировать прибыль" as UC7
 usecase "Вести отчётность" as UC8
-usecase "Проверить наличие товара" as UC9
-usecase "Забронировать товар" as UC10
-usecase "Собрать и упаковать заказ" as UC11
-usecase "Передать заказ в доставку" as UC12
-usecase "Оформить возврат товара" as UC13
-usecase "Контроль сроков доставки" as UC14
+usecase "Регистрация нового клиента" as UC9
+usecase "Проверить наличие товара" as UC10
+usecase "Забронировать товар" as UC11
+usecase "Собрать и упаковать заказ" as UC12
+usecase "Передать заказ в доставку" as UC13
+usecase "Оформить возврат товара" as UC14
+usecase "Контроль сроков доставки" as UC15
 
 Client --> UC1
 Client --> UC2
@@ -36,14 +37,15 @@ Delivery --> UC6
 
 Manager --> UC7
 Manager --> UC8
+Manager --> UC9
 
-Warehouse --> UC9
 Warehouse --> UC10
 Warehouse --> UC11
 Warehouse --> UC12
 Warehouse --> UC13
+Warehouse --> UC14
 
-UC12 ..> UC14 : <<include>>
-UC13 ..> UC14 : <<extends>>
+UC13 ..> UC15 : <<include>>
+UC14 ..> UC15 : <<extends>>
 
 @enduml
