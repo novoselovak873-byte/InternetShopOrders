@@ -93,12 +93,6 @@ InternetShopOrders/
 py src/main.py
 ```
 
-### Запуск тестов
-
-```bash
-py -m pytest tests/
-```
-
 ---
 
 ## Предметная область
