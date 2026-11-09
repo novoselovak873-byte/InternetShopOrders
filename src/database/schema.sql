@@ -6,14 +6,18 @@ DROP TABLE IF EXISTS clients;
 
 CREATE TABLE clients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fio TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    patronymic TEXT,
     phone TEXT,
     email TEXT
 );
 
 CREATE TABLE managers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fio TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    patronymic TEXT,
     phone TEXT
 );
 
@@ -43,12 +47,12 @@ CREATE TABLE order_list (
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
-INSERT INTO clients (fio, phone, email) VALUES 
-('Иванов И.И.', '+79991112233', 'ivanov@mail.ru'),
-('Петрова А.С.', '89994445566', 'petrova_anna@yandex.ru');
+INSERT INTO clients (last_name, first_name, patronymic, phone, email) VALUES 
+('Иванов', 'Иван', 'Иванович', '+79991112233', 'ivanov@mail.ru'),
+('Петрова', 'Анна', 'Сергеевна', '89994445566', 'petrova_anna@yandex.ru');
 
-INSERT INTO managers (fio, phone) VALUES 
-('Сидоров П.П.', '+79120001122');
+INSERT INTO managers (last_name, first_name, patronymic, phone) VALUES 
+('Сидоров', 'Петр', 'Петрович', '+79120001122');
 
 INSERT INTO products (title, price, stock) VALUES 
 ('Ноутбук Lenovo', 55000, 10),

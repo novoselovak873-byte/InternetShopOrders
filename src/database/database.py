@@ -11,7 +11,6 @@ def init_db():
     conn = get_connection()
     cur = conn.cursor()
 
-    # Таблица ролей пользователей
     cur.execute("""
         CREATE TABLE IF NOT EXISTS roles (
             role_id INTEGER PRIMARY KEY,
@@ -19,7 +18,6 @@ def init_db():
         )
     """)
 
-    # Таблица статусов заказов
     cur.execute("""
         CREATE TABLE IF NOT EXISTS statuses (
             status_id INTEGER PRIMARY KEY,
@@ -27,21 +25,21 @@ def init_db():
         )
     """)
 
-    # Таблица пользователей (менеджеры, клиенты, склад)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             login TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             role_id INTEGER NOT NULL,
-            fio TEXT,
+            last_name TEXT,
+            first_name TEXT,
+            patronymic TEXT,
             contact TEXT,
             address TEXT,
             FOREIGN KEY (role_id) REFERENCES roles(role_id)
         )
     """)
 
-    # Таблица товаров на складе
     cur.execute("""
         CREATE TABLE IF NOT EXISTS products (
             product_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +50,6 @@ def init_db():
         )
     """)
 
-    # Таблица заказов
     cur.execute("""
         CREATE TABLE IF NOT EXISTS orders (
             order_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,7 +64,6 @@ def init_db():
         )
     """)
 
-    # Таблица позиций заказа (содержимое корзины)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS order_items (
             item_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -80,7 +76,6 @@ def init_db():
         )
     """)
 
-    # Заполнение справочников
     cur.execute("INSERT OR IGNORE INTO roles VALUES (1, 'Менеджер')")
     cur.execute("INSERT OR IGNORE INTO roles VALUES (2, 'Клиент')")
     cur.execute("INSERT OR IGNORE INTO roles VALUES (3, 'Склад')")
@@ -90,13 +85,15 @@ def init_db():
     cur.execute("INSERT OR IGNORE INTO statuses VALUES (3, 'Выполнен')")
     cur.execute("INSERT OR IGNORE INTO statuses VALUES (4, 'Отменен')")
 
-    # Тестовые учетные записи персонала
-    cur.execute(
-        "INSERT OR IGNORE INTO users (user_id, login, password, role_id, fio) VALUES (1, 'manager', '123', 1, 'Новоселова Карина Сергеевна')")
-    cur.execute(
-        "INSERT OR IGNORE INTO users (user_id, login, password, role_id, fio) VALUES (2, 'sklad', '123', 3, 'Сотрудник Склада Петров')")
+    cur.execute("""
+        INSERT OR IGNORE INTO users (user_id, login, password, role_id, last_name, first_name, patronymic) 
+        VALUES (1, 'manager', '123', 1, 'Новоселова', 'Карина', 'Сергеевна')
+    """)
+    cur.execute("""
+        INSERT OR IGNORE INTO users (user_id, login, password, role_id, last_name, first_name, patronymic) 
+        VALUES (2, 'sklad', '123', 3, 'Петров', 'Алексей', 'Иванович')
+    """)
 
-    # Тестовые товары
     cur.execute(
         "INSERT OR IGNORE INTO products (product_id, name, category, price, stock) VALUES (1, 'Смартфон X', 'Электроника', 50000.0, 10)")
     cur.execute(

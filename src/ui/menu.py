@@ -4,10 +4,10 @@ from models.user import User
 
 
 def client_menu(user: User):
-    # Текстовое меню для роли Клиент
     cart = {}
+    full_name = f"{user.last_name} {user.first_name}" if user.last_name else user.login
     while True:
-        print(f"\n=== МЕНЮ КЛИЕНТА: {user.fio or user.login} ===")
+        print(f"\n=== МЕНЮ КЛИЕНТА: {full_name} ===")
         print("1. Посмотреть каталог товаров")
         print("2. Добавить товар в корзину")
         print("3. Посмотреть корзину и оформить заказ")
@@ -72,9 +72,9 @@ def client_menu(user: User):
 
 
 def manager_menu(user: User):
-    # Текстовое меню для роли Менеджер (это ты)
+    full_name = f"{user.last_name} {user.first_name}" if user.last_name else user.login
     while True:
-        print(f"\n=== МЕНЮ МЕНЕДЖЕРА: {user.fio or user.login} ===")
+        print(f"\n=== МЕНЮ МЕНЕДЖЕРА: {full_name} ===")
         print("1. Ручная регистрация нового клиента")
         print("2. Просмотр зарегистрированных клиентов")
         print("3. Просмотр всех заказов магазина")
@@ -86,16 +86,20 @@ def manager_menu(user: User):
             if choice == "1":
                 login = input("Логин клиента: ")
                 password = input("Пароль: ")
-                fio = input("ФИО клиента: ")
+                last_name = input("Фамия клиента: ")
+                first_name = input("Имя клиента: ")
+                patronymic = input("Отчество клиента: ")
                 contact = input("Телефон: ")
                 address = input("Адрес доставки: ")
-                c_id = auth_service.register_client(login, password, fio, contact, address)
+                c_id = auth_service.register_client(login, password, last_name, first_name, patronymic, contact,
+                                                    address)
                 print(f"Клиент добавлен в БД с ID: {c_id}")
             elif choice == "2":
                 clients = user_repository.get_all_clients()
                 print("\nСписок клиентов в системе:")
                 for c in clients:
-                    print(f"ID: {c.user_id} | Логин: {c.login} | ФИО: {c.fio} | Тел: {c.contact}")
+                    print(
+                        f"ID: {c.user_id} | Логин: {c.login} | ФИО: {c.last_name} {c.first_name} {c.patronymic} | Тел: {c.contact}")
             elif choice == "3":
                 orders = order_repository.get_all()
                 print("\nВсе заказы в интернет-магазине:")
@@ -116,9 +120,9 @@ def manager_menu(user: User):
 
 
 def warehouse_menu(user: User):
-    # Текстовое меню для роли Склад
+    full_name = f"{user.last_name} {user.first_name}" if user.last_name else user.login
     while True:
-        print(f"\n=== ИНТЕРФЕЙС СКЛАДА: {user.fio or user.login} ===")
+        print(f"\n=== ИНТЕРФЕЙС СКЛАДА: {full_name} ===")
         print("1. Проверить остатки товаров на складе")
         print("2. Просмотреть электронные листы сборки")
         print("3. Выдать собранный и упакованный заказ")

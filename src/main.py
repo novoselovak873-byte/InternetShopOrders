@@ -1,7 +1,6 @@
 import sys
 import os
 
-# Добавление папки src в пути поиска Python, чтобы не ломались импорты
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from database.database import init_db
@@ -10,7 +9,6 @@ from ui.menu import manager_menu, client_menu, warehouse_menu
 
 
 def main():
-    # Создание файлов базы данных при первом запуске
     init_db()
 
     while True:
@@ -32,7 +30,6 @@ def main():
 
             print(f"\nУспешный вход в систему!")
 
-            # Разграничение интерфейса по ролям пользователей
             if user.role_id == 1:
                 manager_menu(user)
             elif user.role_id == 2:

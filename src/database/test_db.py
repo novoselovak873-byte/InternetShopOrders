@@ -1,32 +1,26 @@
 import sqlite3
+import os
 
-db = sqlite3.connect('shop.db')
+DB_PATH = 'shop.db'
+
+
+if os.path.exists(DB_PATH):
+    os.remove(DB_PATH)
+
+db = sqlite3.connect(DB_PATH)
 c = db.cursor()
 
-# читаем sql файл
-f = open('schema.sql', 'r', encoding='utf-8')
-sql = f.read()
-f.close()
+
+with open('schema.sql', 'r', encoding='utf-8') as f:
+    sql = f.read()
 
 c.executescript(sql)
 db.commit()
-print("База создана")
+print("База создана по схеме schema.sql")
 
-# клиенты
-print("Клиенты:")
-c.execute("SELECT * FROM clients")
-for row in c.fetchall():
-    print(row)
 
-# заказы
-print("Заказы:")
-c.execute("SELECT orders.id, clients.fio, orders.status FROM orders JOIN clients ON orders.client_id = clients.id")
-for row in c.fetchall():
-    print(row)
-
-# состав 1 заказа
-print("Состав 1 заказа:")
-c.execute("SELECT products.title, order_list.qty FROM order_list JOIN products ON order_list.product_id = products.id WHERE order_list.order_id = 1")
+print("\nПользователи в системе:")
+c.execute("SELECT user_id, login, last_name, first_name, patronymic FROM users")
 for row in c.fetchall():
     print(row)
 
